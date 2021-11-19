@@ -1,4 +1,4 @@
-# DGEN
+# DGEN
 
 El proyecto **dgen** esta pensado como generador de Datos (transacciones) para pruebas de migración de Bases de Datos Oracle. El principal proposito de **dgen** es la definición de un esquema simple de datos al interior de una  (```base de datos Oracle existente```), sobre la cual se definen 3 tablas para ```crear```, ```actualizar``` y ```eliminar``` registros en cada una de ellas de manera controlada; esto permite validar las acciones de replicación que el usuario ha implementado usando servicios o herramientas espacíficas para tal proposito, las cuales toman como origen de los datos la misma (```base de datos Oracle existente```).
 
@@ -53,6 +53,36 @@ dgen config -l = <oracledb-source.XXXXXXXXX.region.rds.amazonaws.com> \
     -x = <userpassword> 
 ```
 
-Para ello listamos los diferentes comando disponibles:
+Luego pidemos ejecutar la inicalización de los esuqemas implementados por **dgen** usando:
 
-TODO..
+```bash
+dgen init
+```
+
+Esta accion creará 3 tablas con el siguiente esquema:
+
+![dms-architecture](imgs/dgen-schema.png)
+
+Ahora podemos imprimir información relacionada a cada tabla usando:
+
+```bash
+dgen data
+```
+
+Y tambien podemos poblar tablas usando el siguiente comando (en este caso unicamente para la tabla 1):
+
+```bash
+dgen insert -t table1 -n 10 -b 1,2,3 
+```
+
+En el ejemplo anterior el argumento ```-t``` es usado para definir la tabla, ```-n``` es usado para definir el número de filas a crear y ```-b``` es usado par adefinir los blocks que necesitamos. Finalmente podemos imprimir nuevamente la información de cada tabla usando ```dgen data```.
+
+**Importante:**
+
+El proyecto **dgen** usa la variable llamada **block** en cada tabla para crear tags sobre los registros mientras se hace uso de  ```dgen insert``` empleando el argumento ```-b```.
+
+Dichos tags pueden ser tabmien usados para identificar y ejecutar actualizaciones y eliminaciones sobre los registros que contengan los bloques específicos. Podemos usar ```dgen delete -t table1 -b 1,2``` para borrar registros que contengan blocks con valores de ```1``` o ```2```, y también podemos usar ```dgen update -t table1 -b 1 -m 'update-message'``` para actualizar los registros de los blocks iguales a ```1``` y cambiar el valor de la variable ```cdc``` usando el argumento ```-m```.
+
+## Comandos dgen
+
+TODO...
