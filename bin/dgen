@@ -1,0 +1,6 @@
+#!/bin/bash
+
+WORKER_SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
+cd $WORKER_SCRIPT_DIR
+
+python dgen.py "$@"
