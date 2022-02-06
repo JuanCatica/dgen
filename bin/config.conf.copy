@@ -1,0 +1,6 @@
+[DEFAULT]
+-l = <host>
+-s = <DB>
+-u = <user>
+-x = <password>
+
